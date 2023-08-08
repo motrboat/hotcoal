@@ -183,30 +183,30 @@ func queryCount(db *sql.DB, filters []Filter) *sql.Row {
 
 ## Documentation
 
-- [type hotcoalString](<#hotcoalString>)
-  - [func Wrap\(s hotcoalString\) hotcoalString](<#Wrap>)
-  - [func W\(s hotcoalString\) hotcoalString](<#W>)
-  - [func \(s hotcoalString\) String\(\) string](<#hotcoalString.String>)
-- [type Slice](<#Slice>)
-- [type allowlistT](<#allowlistT>)
-  - [func Allowlist\(firstAllowlistItem hotcoalString, otherAllowlistItems ...hotcoalString\) allowlistT](<#Allowlist>)
-  - [func \(a allowlistT\) Validate\(value string\) \(hotcoalString, error\)](<#allowlistT.Validate>)
-  - [func \(a allowlistT\) V\(value string\) \(hotcoalString, error\)](<#allowlistT.V>)
-  - [func \(a allowlistT\) MustValidate\(value string\) hotcoalString](<#allowlistT.MustValidate>)
-  - [func \(a allowlistT\) MV\(value string\) hotcoalString](<#allowlistT.MV>)
-- [func Join\(elems \[\]hotcoalString, sep hotcoalString\) hotcoalString](<#Join>)
-- [func Replace\(s, old, new hotcoalString, n int\) hotcoalString](<#Replace>)
-- [func ReplaceAll\(s, old, new hotcoalString\) hotcoalString](<#ReplaceAll>)
-- [type Builder](<#Builder>)
-  - [func \(b \*Builder\) Cap\(\) int](<#Builder.Cap>)
-  - [func \(b \*Builder\) Grow\(n int\)](<#Builder.Grow>)
-  - [func \(b \*Builder\) Len\(\) int](<#Builder.Len>)
-  - [func \(b \*Builder\) Reset\(\)](<#Builder.Reset>)
-  - [func \(b \*Builder\) Write\(s hotcoalString\) \*Builder](<#Builder.Write>)
-  - [func \(b \*Builder\) HotcoalString\(\) hotcoalString](<#Builder.HotcoalString>)
-  - [func \(b \*Builder\) String\(\) string](<#Builder.String>)
+- [type hotcoalString](<#type-hotcoalstring>)
+  - [func Wrap\(s hotcoalString\) hotcoalString](<#func-wrap>)
+  - [func W\(s hotcoalString\) hotcoalString](<#func-w>)
+  - [func \(s hotcoalString\) String\(\) string](<#func-hotcoalstring-string>)
+- [type Slice](<#type-slice>)
+- [type allowlistT](<#type-allowlistt>)
+  - [func Allowlist\(firstAllowlistItem hotcoalString, otherAllowlistItems ...hotcoalString\) allowlistT](<#func-allowlist>)
+  - [func \(a allowlistT\) Validate\(value string\) \(hotcoalString, error\)](<#func-allowlistt-validate>)
+  - [func \(a allowlistT\) V\(value string\) \(hotcoalString, error\)](<#func-allowlistt-v>)
+  - [func \(a allowlistT\) MustValidate\(value string\) hotcoalString](<#func-allowlistt-mustvalidate>)
+  - [func \(a allowlistT\) MV\(value string\) hotcoalString](<#func-allowlistt-mv>)
+- [func Join\(elems \[\]hotcoalString, sep hotcoalString\) hotcoalString](<#func-join>)
+- [func Replace\(s, old, new hotcoalString, n int\) hotcoalString](<#func-replace>)
+- [func ReplaceAll\(s, old, new hotcoalString\) hotcoalString](<#func-replaceall>)
+- [type Builder](<#type-builder>)
+  - [func \(b \*Builder\) Cap\(\) int](<#func-builder-cap>)
+  - [func \(b \*Builder\) Grow\(n int\)](<#func-builder-grow>)
+  - [func \(b \*Builder\) Len\(\) int](<#func-builder-len>)
+  - [func \(b \*Builder\) Reset\(\)](<#func-builder-reset>)
+  - [func \(b \*Builder\) Write\(s hotcoalString\) \*Builder](<#func-builder-write>)
+  - [func \(b \*Builder\) HotcoalString\(\) hotcoalString](<#func-builder-hotcoalstring>)
+  - [func \(b \*Builder\) String\(\) string](<#func-builder-string>)
 
-<a name="hotcoalString"></a>
+
 ### type [hotcoalString](<https://github.com/motrboat/hotcoal/blob/main/hotcoal.go#L6>)
 
 hotcoalString is an abstract data type, which is used for handcrafting SQL, protecting against SQL injection
@@ -215,7 +215,7 @@ hotcoalString is an abstract data type, which is used for handcrafting SQL, prot
 type hotcoalString string
 ```
 
-<a name="Wrap"></a>
+
 #### func [Wrap](<https://github.com/motrboat/hotcoal/blob/main/hotcoal.go#L25>)
 
 ```go
@@ -224,7 +224,7 @@ func Wrap(s hotcoalString) hotcoalString
 
 The Wrap function converts an untyped string constant to a hotcoalString. You can only use it with an untyped string constant, not with a string variable. For the latter, please use an Allowlist to validate the variable and guard against SQL injection.
 
-<a name="W"></a>
+
 #### func [W](<https://github.com/motrboat/hotcoal/blob/main/hotcoal.go#L30>)
 
 ```go
@@ -233,7 +233,7 @@ func W(s hotcoalString) hotcoalString
 
 The W function is a shorthand for Wrap
 
-<a name="hotcoalString.String"></a>
+
 #### func \(hotcoalString\) [String](<https://github.com/motrboat/hotcoal/blob/main/hotcoal.go#L17>)
 
 ```go
@@ -242,7 +242,7 @@ func (s hotcoalString) String() string
 
 The String method converts a hotcoalString to a plain string. Please do all your SQL handcrafting using hotcoalStrings, and convert the result to a plain string only when you pass it to the SQL library.
 
-<a name="Slice"></a>
+
 ### type [Slice](<https://github.com/motrboat/hotcoal/blob/main/hotcoal.go#L11>)
 
 Slice is an alias for a slice of hotcoalStrings. Since hotcoalString is not exported, we export this alias, which allows you to create slices.
@@ -251,7 +251,7 @@ Slice is an alias for a slice of hotcoalStrings. Since hotcoalString is not expo
 type Slice = []hotcoalString
 ```
 
-<a name="allowlistT"></a>
+
 ### type [allowlistT](<https://github.com/motrboat/hotcoal/blob/main/allowlist.go#L7-L9>)
 
 allowlistT holds an allowlist of items, which is used to validate string variables such as column names or table names, guarding against SQL injection
@@ -262,7 +262,7 @@ type allowlistT struct {
 }
 ```
 
-<a name="Allowlist"></a>
+
 #### func [Allowlist](<https://github.com/motrboat/hotcoal/blob/main/allowlist.go#L17>)
 
 ```go
@@ -271,7 +271,7 @@ func Allowlist(firstAllowlistItem hotcoalString, otherAllowlistItems ...hotcoalS
 
 Allowlist creates an allowlistT, which is used to validate validate string variables such as column names or table names, guarding against SQL injection
 
-<a name="allowlistT.Validate"></a>
+
 #### func \(allowlistT\) [Validate](<https://github.com/motrboat/hotcoal/blob/main/allowlist.go#L33>)
 
 ```go
@@ -280,7 +280,7 @@ func (a allowlistT) Validate(value string) (hotcoalString, error)
 
 The Validate method validates a string variable against the allowlist and returns a hotcoalString. If the value is not in the allowlist, it returns an error.
 
-<a name="allowlistT.V"></a>
+
 #### func \(allowlistT\) [V](<https://github.com/motrboat/hotcoal/blob/main/allowlist.go#L42>)
 
 ```go
@@ -289,7 +289,7 @@ func (a allowlistT) V(value string) (hotcoalString, error)
 
 The V method is an shorthand for Validate
 
-<a name="allowlistT.MustValidate"></a>
+
 #### func \(allowlistT\) [MustValidate](<https://github.com/motrboat/hotcoal/blob/main/allowlist.go#L48>)
 
 ```go
@@ -298,7 +298,7 @@ func (a allowlistT) MustValidate(value string) hotcoalString
 
 The MustValidate method validates a string variable against the allowlist and returns a hotcoalString. If the value is not in the allowlist, it panics.
 
-<a name="allowlistT.MV"></a>
+
 #### func \(allowlistT\) [MV](<https://github.com/motrboat/hotcoal/blob/main/allowlist.go#L58>)
 
 ```go
@@ -307,7 +307,7 @@ func (a allowlistT) MV(value string) hotcoalString
 
 The MV method is an shorthand for MustValidate
 
-<a name="Join"></a>
+
 ### func [Join](<https://github.com/motrboat/hotcoal/blob/main/strings.go#L9>)
 
 ```go
@@ -318,7 +318,7 @@ Join concatenates the elements of its first argument to create a single hotcoalS
 
 Under the hood, it uses strings.Join https://pkg.go.dev/strings#Join
 
-<a name="Replace"></a>
+
 ### func [Replace](<https://github.com/motrboat/hotcoal/blob/main/strings.go#L30>)
 
 ```go
@@ -329,7 +329,7 @@ Replace returns a copy of the hotcoalString s with the first n non\-overlapping 
 
 Under the hood, it uses strings.Replace https://pkg.go.dev/strings#Replace
 
-<a name="ReplaceAll"></a>
+
 ### func [ReplaceAll](<https://github.com/motrboat/hotcoal/blob/main/strings.go#L48>)
 
 ```go
@@ -340,7 +340,7 @@ ReplaceAll returns a copy of the string s with all non\-overlapping instances of
 
 Under the hood, it uses strings.ReplaceAll https://pkg.go.dev/strings#ReplaceAll
 
-<a name="Builder"></a>
+
 ### type [Builder](<https://github.com/motrboat/hotcoal/blob/main/builder.go#L13-L15>)
 
 A Builder is used to efficiently build a hotcoalString using the Write method. It minimizes memory copying. The zero value is ready to use. Do not copy a non\-zero Builder.
@@ -353,7 +353,7 @@ type Builder struct {
 }
 ```
 
-<a name="Builder.Cap"></a>
+
 #### func \(\*Builder\) [Cap](<https://github.com/motrboat/hotcoal/blob/main/builder.go#L20>)
 
 ```go
@@ -362,7 +362,7 @@ func (b *Builder) Cap() int
 
 Cap returns the capacity of the builder's underlying byte slice. It is the total space allocated for the hotcoalString being built and includes any bytes already written.
 
-<a name="Builder.Grow"></a>
+
 #### func \(\*Builder\) [Grow](<https://github.com/motrboat/hotcoal/blob/main/builder.go#L27>)
 
 ```go
@@ -371,7 +371,7 @@ func (b *Builder) Grow(n int)
 
 Grow grows b's capacity, if necessary, to guarantee space for another n bytes. After Grow\(n\), at least n bytes can be written to b without another allocation. If n is negative, Grow panics.
 
-<a name="Builder.Len"></a>
+
 #### func \(\*Builder\) [Len](<https://github.com/motrboat/hotcoal/blob/main/builder.go#L32>)
 
 ```go
@@ -380,7 +380,7 @@ func (b *Builder) Len() int
 
 Len returns the number of accumulated bytes; b.Len\(\) == len\(b.String\(\)\).
 
-<a name="Builder.Reset"></a>
+
 #### func \(\*Builder\) [Reset](<https://github.com/motrboat/hotcoal/blob/main/builder.go#L37>)
 
 ```go
@@ -389,7 +389,7 @@ func (b *Builder) Reset()
 
 Reset resets the Builder to be empty.
 
-<a name="Builder.Write"></a>
+
 #### func \(\*Builder\) [Write](<https://github.com/motrboat/hotcoal/blob/main/builder.go#L42>)
 
 ```go
@@ -398,7 +398,7 @@ func (b *Builder) Write(s hotcoalString) *Builder
 
 Write appends the contents of s to b's buffer. It returns b.
 
-<a name="Builder.HotcoalString"></a>
+
 #### func \(\*Builder\) [HotcoalString](<https://github.com/motrboat/hotcoal/blob/main/builder.go#L54>)
 
 ```go
@@ -407,7 +407,7 @@ func (b *Builder) HotcoalString() hotcoalString
 
 String returns the accumulated string as a hotcoalString.
 
-<a name="Builder.String"></a>
+
 #### func \(\*Builder\) [String](<https://github.com/motrboat/hotcoal/blob/main/builder.go#L59>)
 
 ```go
@@ -419,4 +419,3 @@ String returns the accumulated string as a plain string.
 ## Disclaimer
 
 Hotcoal comes without any warranty.
-
