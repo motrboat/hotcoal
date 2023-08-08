@@ -1,3 +1,4 @@
+// Package hotcoal secures your handcrafted SQL against injection
 package hotcoal
 
 // hotcoalString is an abstract data type, which is used for handcrafting SQL,
