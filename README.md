@@ -181,6 +181,10 @@ func queryCount(db *sql.DB, filters []Filter) *sql.Row {
 }
 ```
 
+## Documentation
+
+https://pkg.go.dev/github.com/motrboat/hotcoal
+
 ## Disclaimer
 
 Hotcoal comes without any warranty.
