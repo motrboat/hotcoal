@@ -1,6 +1,6 @@
 package nocompile
 
-import "hotcoal"
+import "github.com/motrboat/hotcoal"
 
 
 var x = "foo"

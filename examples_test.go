@@ -1,7 +1,7 @@
 package hotcoal_test
 
 import (
-  "hotcoal"
+  "github.com/motrboat/hotcoal"
   "testing"
 )
 
