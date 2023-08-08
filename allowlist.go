@@ -43,7 +43,7 @@ func (a allowlistT) V(value string) (hotcoalString, error) {
 	return a.Validate(value)
 }
 
-// The Validate method validates a string variable against the allowlist and returns a hotcoalString.
+// The MustValidate method validates a string variable against the allowlist and returns a hotcoalString.
 // If the value is not in the allowlist, it panics.
 func (a allowlistT) MustValidate(value string) hotcoalString {
 	ret, err := a.Validate(value)
