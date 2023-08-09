@@ -35,6 +35,7 @@ func validateColumnName(columnName, value string) (string, error) {
 
 func TestHandcraftedSQL(t *testing.T) {
   sql, err := handcraftSQL(
+    "users",
     Filter{"first_name", "John"},
     Filter{"last_name", "Doe"},
   )
@@ -44,6 +45,7 @@ func TestHandcraftedSQL(t *testing.T) {
   }
 
   _, err = handcraftSQL(
+    "users",
     Filter{"first_name", "John"},
     Filter{"true; DROP TABLE users; --", "Doe"},
   )
@@ -58,8 +60,12 @@ type Filter struct {
   Value string
 }
 
-func handcraftSQL(filters ... Filter) (string, error) {
-  query := hotcoal.Wrap("SELECT COUNT(*) FROM users WHERE {{FILTERS}};")
+func handcraftSQL(tableName string, filters ... Filter) (string, error) {
+  validatedTableName, err := hotcoal.Allowlist("users", "customers").V(tableName)
+  if err != nil {
+    return "", err
+  }
+
   allowlist := hotcoal.Allowlist("first_name", "middle_name", "last_name", "nickname")
 
   sqlArr := hotcoal.Slice{}
@@ -75,11 +81,15 @@ func handcraftSQL(filters ... Filter) (string, error) {
     values = append(values, filter.Value)
   }
 
-  query = hotcoal.ReplaceAll(
-    query,
-    "{{FILTERS}}",
-    hotcoal.Join(sqlArr, " OR "),
-  )
+  query := hotcoal.Wrap("SELECT COUNT(*) FROM {{TABLE}} WHERE {{FILTERS}};").
+    ReplaceAll(
+      "{{TABLE}}",
+      validatedTableName,
+    ).
+    ReplaceAll(
+      "{{FILTERS}}",
+      hotcoal.Join(sqlArr, " OR "),
+    )
 
   return query.String(), nil
 }

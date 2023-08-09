@@ -31,21 +31,17 @@ var _ = hotcoal.Join([]string{}, y)              // ERROR: cannot use []string{}
 
 var _ = hotcoal.Join(z, x)                       // ERROR: cannot use x (variable of type string) as hotcoal.hotcoalString value in argument to hotcoal.Join
 
-var _ = hotcoal.W(hotcoal.Replace(y, y, y, 0))   // OK
+var _ = hotcoal.W(y.Replace(y, y, 0))            // OK
 
-var _ = hotcoal.Replace(x, y, y, 0)              // ERROR: cannot use x (variable of type string) as hotcoal.hotcoalString value in argument to hotcoal.Replace
+var _ = y.Replace(x, y, 0)                       // ERROR: cannot use x (variable of type string) as hotcoal.hotcoalString value in argument to hotcoal.Replace
 
-var _ = hotcoal.Replace(y, x, y, 0)              // ERROR: cannot use x (variable of type string) as hotcoal.hotcoalString value in argument to hotcoal.Replace
+var _ = y.Replace(y, x, 0)                       // ERROR: cannot use x (variable of type string) as hotcoal.hotcoalString value in argument to hotcoal.Replace
 
-var _ = hotcoal.Replace(y, y, x, 0)              // ERROR: cannot use x (variable of type string) as hotcoal.hotcoalString value in argument to hotcoal.Replace
+var _ = hotcoal.W(y.ReplaceAll(y, y))            // OK
 
-var _ = hotcoal.W(hotcoal.ReplaceAll(y, y, y))   // OK
+var _ = y.ReplaceAll(x, y)                       // ERROR: cannot use x (variable of type string) as hotcoal.hotcoalString value in argument to hotcoal.ReplaceAll
 
-var _ = hotcoal.ReplaceAll(x, y, y)              // ERROR: cannot use x (variable of type string) as hotcoal.hotcoalString value in argument to hotcoal.ReplaceAll
-
-var _ = hotcoal.ReplaceAll(y, x, y)              // ERROR: cannot use x (variable of type string) as hotcoal.hotcoalString value in argument to hotcoal.ReplaceAll
-
-var _ = hotcoal.ReplaceAll(y, y, x)              // ERROR: cannot use x (variable of type string) as hotcoal.hotcoalString value in argument to hotcoal.ReplaceAll
+var _ = y.ReplaceAll(y, x)                       // ERROR: cannot use x (variable of type string) as hotcoal.hotcoalString value in argument to hotcoal.ReplaceAll
 
 var b hotcoal.Builder
 

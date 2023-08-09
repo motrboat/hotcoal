@@ -38,7 +38,7 @@ func (b *Builder) Reset() {
 	b.stringBuilder.Reset()
 }
 
-// Write appends the contents of s to b's buffer. It returns b.
+// Write appends the contents of s to b's buffer. It returns b, you can chain method calls.
 func (b *Builder) Write(s hotcoalString) *Builder {
 	_, err := b.stringBuilder.WriteString(string(s))
 

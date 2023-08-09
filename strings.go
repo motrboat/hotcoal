@@ -26,8 +26,10 @@ func Join(elems []hotcoalString, sep hotcoalString) hotcoalString {
 // for a k-rune hotcoalString.
 // If n < 0, there is no limit on the number of replacements.
 //
+// You can chain method calls.
+//
 // Under the hood, it uses strings.Replace https://pkg.go.dev/strings#Replace
-func Replace(s, old, new hotcoalString, n int) hotcoalString {
+func (s hotcoalString) Replace(old, new hotcoalString, n int) hotcoalString {
 	result := strings.Replace(
 		string(s),
 		string(old),
@@ -44,8 +46,10 @@ func Replace(s, old, new hotcoalString, n int) hotcoalString {
 // and after each UTF-8 sequence, yielding up to k+1 replacements
 // for a k-rune string.
 //
+// You can chain method calls.
+//
 // Under the hood, it uses strings.ReplaceAll https://pkg.go.dev/strings#ReplaceAll
-func ReplaceAll(s, old, new hotcoalString) hotcoalString {
+func (s hotcoalString) ReplaceAll(old, new hotcoalString) hotcoalString {
 	result := strings.ReplaceAll(
 		string(s),
 		string(old),

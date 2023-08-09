@@ -107,8 +107,14 @@ type Filter struct {
   Value string
 }
 
-func queryCount(db *sql.DB, filters []Filter) *sql.Row {
-  query := hotcoal.Wrap("SELECT COUNT(*) FROM users WHERE {{FILTERS}};")
+func queryCount(db *sql.DB, tableName string, filters []Filter) (*sql.Row, error) {
+  validatedTableName, err := hotcoal.
+    Allowlist("users", "customers").
+    Validate(tableName)
+  if err != nil {
+    return nil, err
+  }
+
   allowlist := hotcoal.Allowlist("first_name", "middle_name", "last_name", "nickname")
 
   sqlArr := hotcoal.Slice{}
@@ -124,11 +130,15 @@ func queryCount(db *sql.DB, filters []Filter) *sql.Row {
     values = append(values, filter.Value)
   }
 
-  query = hotcoal.ReplaceAll(
-    query,
-    "{{FILTERS}}",
-    hotcoal.Join(sqlArr, " OR "),
-  )
+  query := hotcoal.Wrap("SELECT COUNT(*) FROM {{TABLE}} WHERE {{FILTERS}};").
+    ReplaceAll(
+      "{{TABLE}}",
+      validatedTableName,
+    ).
+    ReplaceAll(
+      "{{FILTERS}}",
+      hotcoal.Join(sqlArr, " OR "),
+    )
 
   row := db.QueryRow(query.String(), values...)
 
@@ -195,8 +205,8 @@ func queryCount(db *sql.DB, filters []Filter) *sql.Row {
   - [func \(a allowlistT\) MustValidate\(value string\) hotcoalString](<#func-allowlistt-mustvalidate>)
   - [func \(a allowlistT\) MV\(value string\) hotcoalString](<#func-allowlistt-mv>)
 - [func Join\(elems \[\]hotcoalString, sep hotcoalString\) hotcoalString](<#func-join>)
-- [func Replace\(s, old, new hotcoalString, n int\) hotcoalString](<#func-replace>)
-- [func ReplaceAll\(s, old, new hotcoalString\) hotcoalString](<#func-replaceall>)
+- [func \(s hotcoalString\) Replace\(old, new hotcoalString, n int\) hotcoalString](<#func-hotcoalstring-replace>)
+- [func \(s hotcoalString\) ReplaceAll\(old, new hotcoalString\) hotcoalString](<#func-hotcoalstring-replaceall>)
 - [type Builder](<#type-builder>)
   - [func \(b \*Builder\) Cap\(\) int](<#func-builder-cap>)
   - [func \(b \*Builder\) Grow\(n int\)](<#func-builder-grow>)
@@ -319,24 +329,27 @@ Join concatenates the elements of its first argument to create a single hotcoalS
 Under the hood, it uses strings.Join https://pkg.go.dev/strings#Join
 
 
-### func [Replace](<https://github.com/motrboat/hotcoal/blob/main/strings.go#L30>)
+### func \(hotcoalString\) [Replace](<https://github.com/motrboat/hotcoal/blob/main/strings.go#L68>)
 
 ```go
-func Replace(s, old, new hotcoalString, n int) hotcoalString
+func (s hotcoalString) Replace(old, new hotcoalString, n int) hotcoalString
 ```
 
 Replace returns a copy of the hotcoalString s with the first n non\-overlapping instances of old replaced by new. If old is empty, it matches at the beginning of the hotcoalString and after each UTF\-8 sequence, yielding up to k\+1 replacements for a k\-rune hotcoalString. If n \< 0, there is no limit on the number of replacements.
 
+You can chain method calls.
+
 Under the hood, it uses strings.Replace https://pkg.go.dev/strings#Replace
 
-
-### func [ReplaceAll](<https://github.com/motrboat/hotcoal/blob/main/strings.go#L48>)
+### func \(hotcoalString\) [ReplaceAll](<https://github.com/motrboat/hotcoal/blob/main/strings.go#L88>)
 
 ```go
-func ReplaceAll(s, old, new hotcoalString) hotcoalString
+func (s hotcoalString) ReplaceAll(old, new hotcoalString) hotcoalString
 ```
 
 ReplaceAll returns a copy of the string s with all non\-overlapping instances of old replaced by new. If old is empty, it matches at the beginning of the string and after each UTF\-8 sequence, yielding up to k\+1 replacements for a k\-rune string.
+
+You can chain method calls.
 
 Under the hood, it uses strings.ReplaceAll https://pkg.go.dev/strings#ReplaceAll
 
@@ -396,7 +409,7 @@ Reset resets the Builder to be empty.
 func (b *Builder) Write(s hotcoalString) *Builder
 ```
 
-Write appends the contents of s to b's buffer. It returns b.
+Write appends the contents of s to b's buffer. It returns b, you can chain method calls.
 
 
 #### func \(\*Builder\) [HotcoalString](<https://github.com/motrboat/hotcoal/blob/main/builder.go#L54>)
