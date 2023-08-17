@@ -1,4 +1,5 @@
 # Hotcoal
+![Coverage](https://img.shields.io/badge/Coverage-97.2%25-brightgreen)
 
 ## Secure your handcrafted SQL against injection
 
