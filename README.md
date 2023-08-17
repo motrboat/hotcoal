@@ -1,4 +1,6 @@
 # Hotcoal
+
+[![Go Reference](https://pkg.go.dev/badge/github.com/motrboat/hotcoal.svg)](https://pkg.go.dev/github.com/motrboat/hotcoal)
 ![Coverage](https://img.shields.io/badge/Coverage-97.2%25-brightgreen)
 
 ## Secure your handcrafted SQL against injection
