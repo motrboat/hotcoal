@@ -28,7 +28,10 @@ func TestAllowlist(t *testing.T) {
 			t.Fail()
 		}
 	}
+}
 
+func TestAllowlistError(t *testing.T) {
+	allowlist := Allowlist("foo", "bar", "tar")
 	el := "baz"
 
 	hs, err := allowlist.Validate(el)
