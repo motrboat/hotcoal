@@ -201,6 +201,7 @@ func queryCount(db *sql.DB, filters []Filter) *sql.Row {
 - [type hotcoalString](<#type-hotcoalstring>)
   - [func Wrap\(s hotcoalString\) hotcoalString](<#func-wrap>)
   - [func W\(s hotcoalString\) hotcoalString](<#func-w>)
+  - [func Itoa\(i int\) hotcoalString](<#func-itoa>)
   - [func \(s hotcoalString\) String\(\) string](<#func-hotcoalstring-string>)
 - [type Slice](<#type-slice>)
 - [type allowlistT](<#type-allowlistt>)
@@ -247,6 +248,15 @@ func W(s hotcoalString) hotcoalString
 ```
 
 The W function is a shorthand for Wrap
+
+
+#### func [Itoa](<https://github.com/motrboat/hotcoal/blob/main/strconv.go#L6>)
+
+```go
+func Itoa(i int) hotcoalString
+```
+
+The Itoa function converts an int to a hotcoalString.
 
 
 #### func \(hotcoalString\) [String](<https://github.com/motrboat/hotcoal/blob/main/hotcoal.go#L17>)
